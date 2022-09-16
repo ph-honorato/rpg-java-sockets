@@ -4,19 +4,81 @@ import java.io.PrintStream;
 import java.net.*;
 import java.util.Scanner;
 
+
+class Acoes {
+
+    private Personagem personagem;
+    private Scanner s = new Scanner(System.in);
+
+    public Acoes(Personagem personagem){
+        this.personagem = personagem;
+    }
+
+    public String hubAcoes(){
+
+        String linhas [] = {
+            "",
+            "",
+            "Qual ação deseja realizar?",
+            "Digite apenas o número da opção desejada.",
+            "",
+            "\t(1) Atualizar meu estado atual",
+            "\t(2) Realizar um teste",
+            "\t(3) Realizar um dano",
+            "",
+        };
+
+        for(String l: linhas){System.out.println(l);}
+
+        
+        System.out.print("Selecione sua opção: ");
+        int opcao = s.nextInt();
+
+
+        while(opcao != 1 || opcao != 2 || opcao !=3){
+
+            switch(opcao){
+                case 1:
+                return mudarEstado();
+                
+                case 2:
+                return realizarTeste();
+                
+                case 3:
+                return realizarDano();
+            }
+
+            System.out.print("Opção inválida, digite novamente: ");
+            opcao = s.nextInt();
+
+        } 
+
+        return null;
+    }
+
+
+    public String mudarEstado(){ return "\n" + personagem.nome + "realizou Mudar estado"; }
+    
+    public String realizarTeste(){ return "\n" + personagem.nome + "realizou Realizar Teste"; }
+    
+    public String realizarDano(){ return "\n" + personagem.nome + "realizou Dano"; }
+
+}
+
+
 class Personagem {
 
     //Características
-    private String nome;
-    private String estado;
+    public String nome;
+    public String estado;
 
     //Atributos
-    private int f; //FOR
-    private int i; //INT
-    private int a; //AGI
-    private int m; //MIS
-    private int c; //CAR
-    private int p; //PRO
+    public int f; //FOR
+    public int i; //INT
+    public int a; //AGI
+    public int m; //MIS
+    public int c; //CAR
+    public int p; //PRO
     
     //Scanner
     private Scanner s = new Scanner(System.in);
@@ -86,7 +148,7 @@ public class Cliente {
     private static String host = "127.0.0.1";
     private static int porta = 12345;
     private static Personagem personagem; 
-    //private static Acoes acoes;
+    private static Acoes acoes;
 
     public static void main(String[] args) throws UnknownHostException, IOException {    
         
@@ -96,26 +158,28 @@ public class Cliente {
     public static void executa() throws UnknownHostException, IOException {
 
         //Cria um novo cliente
-        Socket cliente = new Socket(host, porta);
+        try (Socket cliente = new Socket(host, porta)) {
+            
+            //Cria uma thread para receber mensagens do servidor
+            Recebedor r = new Recebedor(cliente.getInputStream());
+            new Thread(r).start();
 
-        //Cria uma thread para receber mensagens do servidor
-        Recebedor r = new Recebedor(cliente.getInputStream());
-        new Thread(r).start();
+            //Lê msgs do teclado e manda pro servidor
+            // Scanner teclado = new Scanner(System.in);
+            PrintStream saida = new PrintStream(cliente.getOutputStream());
 
-        //Lê msgs do teclado e manda pro servidor
-        Scanner teclado = new Scanner(System.in);
-        PrintStream saida = new PrintStream(cliente.getOutputStream());
+            //Cria um novo personagem e instancia suas acoes
+            personagem = new Personagem();
+            acoes = new Acoes(personagem);
 
-        //Cria um novo personagem e suas acoes
-        personagem = new Personagem();
-        //acoes = new acoes(personagem);
-
-        while (teclado.hasNextLine()) {
-            saida.println(teclado.nextLine());
+            while (true) {
+                String a = acoes.hubAcoes();
+                saida.println(a);
+            }
         }
         
-        saida.close();
-        teclado.close();
-        cliente.close();
+        // saida.close();
+        // teclado.close();
+        // cliente.close();
     }
 }
