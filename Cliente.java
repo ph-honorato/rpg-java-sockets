@@ -22,42 +22,6 @@ class personagem {
 
 }
 
-
-class historia {
-
-    public void escolherPersonagem(){
-        String [] linhas = {
-            "",
-            "",
-            "",
-            "",
-            "Existem quatro opções de classe:",
-            "",
-            "Arqueiro (1)\tBárbaro (2)\tCavaleiro (3)\tMago (4)",
-            "",
-            "Vida: 20\tVida: 25\tVida: 30\tVida: 15",
-            "Ataque: 1xD8\tAtaque: 1xD10\tAtaque: 1xD6\tAtaque: 1xD6\t",
-            "Ação: Mirar\tAção: Fúria\tAção: Defender\tAção: Curar",
-            "",
-            "",
-            "",
-        };
-
-        for (String l: linhas){System.out.println(l);}
-    }
-
-    public void personagemEscolhido(String p){
-        String [] linhas = {
-            "",
-            "Você se conectou utilizando a classe: " + p,
-            "",
-        };
-
-        for (String l: linhas){System.out.println(l);}
-    }
-}
-
-
 class Recebedor implements Runnable {
     
     private InputStream servidor;
@@ -83,24 +47,15 @@ public class Cliente {
 
     private static String host = "127.0.0.1";
     private static int porta = 12345;
-
     public static Scanner teclado = new Scanner(System.in);
-    public static historia h = new historia();
+
     public static personagem p;
 
-    public static void main(String[] args) throws UnknownHostException, IOException {    
-
-        h.escolherPersonagem();
-        p = escolherPersonagem();
-
-        // dispara cliente
-        executa();
-    }
 
     public static void executa() throws UnknownHostException, IOException {
         
         Socket cliente = new Socket(host, porta);
-        h.personagemEscolhido(p.classe);
+        System.out.println("Aguardando outros jogadores....");
 
         // thread para receber mensagens do servidor
         Recebedor r = new Recebedor(cliente.getInputStream());
@@ -143,5 +98,13 @@ public class Cliente {
         }
         
         return null;
+    }
+
+    public static void main(String[] args) throws UnknownHostException, IOException {    
+        
+        // p = escolherPersonagem();
+
+        // dispara cliente
+        executa();
     }
 }
