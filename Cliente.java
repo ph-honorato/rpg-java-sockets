@@ -1,14 +1,11 @@
+//Importações
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.*;
 import java.util.Random;
 import java.util.Scanner;
-
 import javax.swing.*;
-import javax.swing.text.html.HTMLDocument.RunElement;
-import javax.xml.soap.Text;
-
 import java.awt.*;
 import java.awt.event.*;
 
@@ -81,6 +78,11 @@ class Personagem {
         
         saida.println(mensagem);
     }
+
+    public void enviarMensagem(String mensagemRecebida){
+        String mensagem = nome + ": " + mensagemRecebida;
+        saida.println(mensagem);
+    }
 }
 
 class Acoes {
@@ -137,7 +139,7 @@ class Acoes {
     //Ações
     public Acoes(Personagem personagem) {
         this.personagem = personagem;
-        // Gui();
+        Gui();
     }
 
     //Começa a aplicação
@@ -286,6 +288,14 @@ class Acoes {
         bmensagem.setLocation(initialX +fieldSize +160, 500);
         p.add(bmensagem);
 
+        bmensagem.addActionListener( new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                atualizarForm();
+                personagem.enviarMensagem(fmensagem.getText());
+                fmensagem.setText("");
+            }         
+        });
+
 
         //Limpar Console
         blimpar = new JButton("X");
@@ -425,7 +435,6 @@ public class Cliente {
         //Cria um novo personagem e instancia suas acoes
         Personagem personagem = new Personagem(saida);
         Acoes acoes = new Acoes(personagem);
-        acoes.Gui();
 
         //Cria uma thread para receber mensagens do servidor
         Recebedor r = new Recebedor(cliente.getInputStream(), acoes);
