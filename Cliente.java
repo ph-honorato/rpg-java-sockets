@@ -147,7 +147,6 @@ class Acoes {
 
         //Definindo Tela
         JFrame f = new JFrame("RPG");
-        f.setVisible(true);
         f.setSize(435, 600);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -311,7 +310,9 @@ class Acoes {
 
 
         //Adiciona o painel a tela
-        f.add(p); 
+        f.add(p);
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
     }
 
     public void atualizarForm(){
