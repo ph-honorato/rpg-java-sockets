@@ -73,10 +73,10 @@ class Personagem {
 
             //Atualiza o resultado com modificações
             resultado = resultado + mods;
-            mensagem = nome + " obteve  { " + resultado + " }  como resultado de um teste de " + teste;
+            mensagem = nome + " obteve  { " + resultado + " }  em um teste de " + teste;
         
         } else {
-            mensagem = nome + " não pode realizar testes enquanto está no estado de Enloquecido";
+            mensagem = nome + " não pode realizar testes no estado de Enloquecido";
         } 
         
         saida.println(mensagem);
@@ -113,6 +113,9 @@ class Acoes {
     private JButton bteste;
     private JTextArea fconsole;
     private JScrollPane fscrollpanel;
+    private JTextField fmensagem;
+    private JButton bmensagem;
+    private JButton blimpar;
 
     //Estados
     private String estados [] = {
@@ -270,6 +273,31 @@ class Acoes {
         fscrollpanel.setSize(375, 150);
         fscrollpanel.setLocation(initialX, 350);
         p.add(fscrollpanel);
+
+
+        //Escrever Mensagem
+        fmensagem = new JTextField();
+        fmensagem.setSize(fieldSize +160, fieldHeight +1);
+        fmensagem.setLocation(initialX, 500);
+        p.add(fmensagem);
+
+        bmensagem = new JButton(">");
+        bmensagem.setSize(fieldHeight +30, fieldHeight);
+        bmensagem.setLocation(initialX +fieldSize +160, 500);
+        p.add(bmensagem);
+
+
+        //Limpar Console
+        blimpar = new JButton("X");
+        blimpar.setSize(fieldHeight +30, fieldHeight);
+        blimpar.setLocation(initialX +fieldSize +224, 500);
+        p.add(blimpar);
+
+        blimpar.addActionListener( new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                limparConsole();
+            }         
+        });
 
 
         //Adiciona o painel a tela
