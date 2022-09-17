@@ -143,7 +143,7 @@ class Acoes {
         //Definindo Tela
         JFrame f = new JFrame("RPG");
         f.setVisible(true);
-        f.setSize(440, 600);
+        f.setSize(435, 600);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container p = new Container();
@@ -167,7 +167,7 @@ class Acoes {
         p.add(lnome);
  
         fnome = new JTextField();
-        fnome.setSize(fieldSize, fieldHeight);
+        fnome.setSize(fieldSize +30, fieldHeight);
         fnome.setLocation(initialX + labelSize + space, initialY);
         p.add(fnome);
 
@@ -176,12 +176,12 @@ class Acoes {
         lestado = new JLabel("Estado");
         lestado.setFont(new Font("Arial", Font.PLAIN, fontSize));
         lestado.setSize(labelSize, labelHeight);
-        lestado.setLocation(200, initialY);
+        lestado.setLocation(250, initialY);
         p.add(lestado);
  
         festado = new JComboBox<String>(estados);
         festado.setSize(fieldSize, fieldHeight);
-        festado.setLocation(200 + labelSize + space, initialY);
+        festado.setLocation(250 + labelSize + space, initialY);
         p.add(festado);
 
 
@@ -199,12 +199,12 @@ class Acoes {
         lcar = new JLabel("CAR");
         lpro = new JLabel("PRO");
         
-        int posX = 70;
+        int posX = 80;
         int posY = 100;
         int cont = 0;
         for(JTextField a: new JTextField [] {ffor, fint, fdes, fmis, fcar, fpro} ){
             if(cont == 3){
-                posX = 70;
+                posX = 80;
                 posY += 80;
             }
             a.setSize(50, fieldHeight +10);
@@ -214,12 +214,12 @@ class Acoes {
             cont++;
         }
     
-        posX = 85;
+        posX = 95;
         posY = 130;
         cont = 0;
         for(JLabel a: new JLabel [] {lfor, lint, ldes, lmis, lcar, lpro} ){
             if(cont == 3){
-                posX = 85;
+                posX = 95;
                 posY += 80;
             }
             a.setFont(new Font("Arial", Font.PLAIN, fontSize));
@@ -234,7 +234,7 @@ class Acoes {
         //Botão de Salvar
         bsalvar = new JButton("Salvar");
         bsalvar.setSize(80, 20);
-        bsalvar.setLocation(20, 350);
+        bsalvar.setLocation(20, 320);
         p.add(bsalvar);
         
         bsalvar.addActionListener( new ActionListener() { 
@@ -247,12 +247,12 @@ class Acoes {
         //Botão de Teste
         fteste = new JComboBox<String>(testes);
         fteste.setSize(fieldSize, fieldHeight);
-        fteste.setLocation(175, 350);
+        fteste.setLocation(175, 320);
         p.add(fteste);
 
         bteste = new JButton("Realizar Teste");
         bteste.setSize(120, 20);
-        bteste.setLocation(275, 350);
+        bteste.setLocation(275, 320);
         p.add(bteste);
 
         bteste.addActionListener( new ActionListener() { 
@@ -267,8 +267,8 @@ class Acoes {
         fconsole = new JTextArea();
         fconsole.setEditable(false);
         fscrollpanel = new JScrollPane(fconsole);
-        fscrollpanel.setSize(380, 120);
-        fscrollpanel.setLocation(initialX, 420);
+        fscrollpanel.setSize(375, 150);
+        fscrollpanel.setLocation(initialX, 350);
         p.add(fscrollpanel);
 
 
