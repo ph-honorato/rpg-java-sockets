@@ -9,12 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
 class Personagem {
     //Características
     public String nome;
     public String estado;
 
+    //Saida para o servidor
     public PrintStream saida;
 
     //Atributos
@@ -315,6 +315,7 @@ class Acoes {
         f.setVisible(true);
     }
 
+    //Atualiza os campos da aplicação
     public void atualizarForm(){
         try{  
             String [] campos = {
@@ -366,6 +367,7 @@ class Acoes {
         }
     }
 
+    //Atualiza o personagem
     public void salvarPersonagem(String nome, String estado, int f, int i, int d, int m, int c, int p){
         personagem.nome = nome;
         personagem.estado = estado;
@@ -377,17 +379,20 @@ class Acoes {
         personagem.p = p;
     }
 
+    //Atualizar console da aplicação
     public void atualizarConsole(String mensagem){
         this.mensagensConsole = this.mensagensConsole + mensagem + "\n";
         this.fconsole.setText(this.mensagensConsole);
     }
 
+    //Limpa o console da aplicação
     public void limparConsole(){
         this.mensagensConsole = "";
         this.fconsole.setText("");
     }
 
 }
+
 
 class Recebedor implements Runnable {
 
@@ -419,14 +424,13 @@ class Recebedor implements Runnable {
 
 public class Cliente {
 
+    //Host e Porta para se conectar ao servidor
     private static String host = "127.0.0.1";
     private static int porta = 12345;
 
-    // private static Acoes acoes;
-
     public static void executa() throws UnknownHostException, IOException {
 
-        // Cria um novo cliente
+        //Cria um novo cliente
         Socket cliente = new Socket(host, porta);
 
         //Lê msgs do teclado e manda pro servidor
@@ -450,7 +454,6 @@ public class Cliente {
         cliente.close();
     }
 
-    
 
     public static void main(String[] args) throws UnknownHostException, IOException {
         executa();

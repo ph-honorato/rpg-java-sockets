@@ -35,11 +35,15 @@ class TrataCliente implements Runnable {
 
 public class Servidor {
 
+    //Porta para abrir o servidor
     private int porta = 12345;
+
+    //Vetor de clientes
     private List<PrintStream> clientes = new ArrayList<PrintStream>();;
 
     public void executa() throws IOException {
 
+        //Abre o servidor
         try (ServerSocket servidor = new ServerSocket(porta)) {
             System.out.println("Porta " + porta + " aberta!");
 
