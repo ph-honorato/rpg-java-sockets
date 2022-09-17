@@ -15,6 +15,8 @@ class Personagem {
     public String nome;
     public String estado;
 
+    public PrintStream saida;
+
     //Atributos
     public int f; // FOR
     public int i; // INT
@@ -22,6 +24,10 @@ class Personagem {
     public int m; // MIS
     public int c; // CAR
     public int p; // PRO
+
+    public Personagem(PrintStream saida){
+        this.saida = saida;
+    }
 
     //Realizar Teste
     public void teste(String teste){
@@ -67,10 +73,10 @@ class Personagem {
             mensagem = nome + " obteu  { " + resultado + " }  como resultado de um teste de " + teste;
         
         } else {
-            mensagem = "Você não pode realizar testes enquanto está no estado de Enloquecido";
+            mensagem = nome + " não pode realizar testes enquanto está no estado de Enloquecido";
         } 
         
-        System.out.println(mensagem);
+        saida.println(mensagem);
 
     }
 }
@@ -358,11 +364,11 @@ public class Cliente {
         PrintStream saida = new PrintStream(cliente.getOutputStream());
 
         //Cria um novo personagem e instancia suas acoes
-        Personagem personagem = new Personagem();
+        Personagem personagem = new Personagem(saida);
         Acoes acoes = new Acoes(personagem);
 
         while (teclado.hasNextLine()) {
-            saida.println(personagem.nome + " digitou: " + teclado);
+            saida.println(personagem.nome + ": " + teclado.nextLine());
         }
 
         saida.close();
