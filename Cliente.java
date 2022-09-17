@@ -2,9 +2,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.*;
+import java.util.Random;
 import java.util.Scanner;
 
-import javax.lang.model.element.Element;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -40,7 +40,52 @@ class Personagem {
     public void teste(String teste){
 
         int resultado = 0;
-        System.out.println(nome + " obteu  { " + resultado + " }  como resultado de um teste de " + teste);
+        int dados = 0;
+        int mods = 0;
+        Random aleatorio = new Random();
+        int max = 20;
+        int min = 1;
+        String mensagem = "";
+        
+        if( !(this.estado == "Enlouquecido") ){
+        
+            if (teste == "Combate" || teste == "Resistência" || teste == "Intimidação"){    dados = this.f; } 
+            else if (teste == "Magia" || teste == "Intelecto" || teste == "Percepção"){     dados = this.i; }
+            else if (teste == "Agilidade" || teste == "Furtividade" || teste == "Mira"){    dados = this.d; } 
+            else if (teste == "Fé" || teste == "Encantamento" || teste == "Sanidade"){      dados = this.m; } 
+            else if (teste == "Carisma" || teste == "Arte" || teste == "Sorte"){            dados = this.c; } 
+            else if (teste == "Sobrevivência" || teste == "Cutelaria" || teste == "Ciências"){ dados = this.p; }
+
+            
+            if(this.estado == "Esgotado"){ dados = dados >= 0 ? 0 : dados; } 
+            else if (this.estado == "Assustado" || this.estado == "Cansado" || this.estado == "Desprevenido"){ mods = -2; } 
+            else if (this.estado == "Apavorado" || this.estado == "Exausto" || this.estado == "Enjoado"){ mods = -5;} 
+
+            if(dados >= 0){
+                dados = dados + 1;
+                for(int x = 0; x < dados; x++){
+                    int dado = aleatorio.nextInt(max - min + 1) + min;
+                    resultado = dado > resultado ? dado : resultado;
+                }
+            
+            } else {
+                dados = (dados*-1) + 1;
+                resultado = 20;
+                for(int x = 0; x < dados; x++){
+                    int dado = aleatorio.nextInt(max - min + 1) + min;
+                    resultado = dado < resultado ? dado : resultado;
+                }
+            }   
+
+            //Atualiza o resultado com modificações
+            resultado = resultado + mods;
+            mensagem = nome + " obteu  { " + resultado + " }  como resultado de um teste de " + teste + "\n\n";
+        
+        } else {
+            mensagem = "Você não pode realizar testes enquanto está no estado de Enloquecido";
+        } 
+        
+        System.out.println(mensagem);
 
     }
 }
@@ -50,7 +95,11 @@ class Acoes {
     private Personagem personagem;
     private boolean primeiroCadastro = false;
 
-    private String estados [] = {"Normal", "Cansado", "Exausto", "Enjoado"};
+    private String estados [] = {
+        "Normal", "Esgotado", "Assustado",
+        "Apavorado", "Enlouquecido", "Desprevenido", 
+        "Cansado", "Exausto", "Enjoado", 
+    };
 
     private String testes [] = {
         "Combate", "Resistência", "Intimidação",
