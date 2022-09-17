@@ -11,11 +11,11 @@ import java.awt.event.*;
 
 
 class Personagem {
-    // Características
+    //Características
     public String nome;
     public String estado;
 
-    // Atributos
+    //Atributos
     public int f; // FOR
     public int i; // INT
     public int d; // DES
@@ -23,22 +23,8 @@ class Personagem {
     public int c; // CAR
     public int p; // PRO
 
-    public void exibir(){
-        System.out.println(""+
-        "nome: "+ nome + "\n" +
-        "estado: "+ estado + "\n" +
-        "\n" +
-        "FOR : "+ f + "\n" +
-        "INT : "+ i + "\n" +
-        "DES : "+ d + "\n" +
-        "MIS : "+ m + "\n" +
-        "CAR : "+ c + "\n" +
-        "PRO : "+ p + "\n"
-        );
-    }
-
+    //Realizar Teste
     public void teste(String teste){
-
         int resultado = 0;
         int dados = 0;
         int mods = 0;
@@ -53,9 +39,8 @@ class Personagem {
             else if (teste == "Magia" || teste == "Intelecto" || teste == "Percepção"){     dados = this.i; }
             else if (teste == "Agilidade" || teste == "Furtividade" || teste == "Mira"){    dados = this.d; } 
             else if (teste == "Fé" || teste == "Encantamento" || teste == "Sanidade"){      dados = this.m; } 
-            else if (teste == "Carisma" || teste == "Arte" || teste == "Sorte"){            dados = this.c; } 
+            else if (teste == "Persuasão" || teste == "Arte" || teste == "Sorte"){          dados = this.c; } 
             else if (teste == "Sobrevivência" || teste == "Cutelaria" || teste == "Ciências"){ dados = this.p; }
-
             
             if(this.estado == "Esgotado"){ dados = dados >= 0 ? 0 : dados; } 
             else if (this.estado == "Assustado" || this.estado == "Cansado" || this.estado == "Desprevenido"){ mods = -2; } 
@@ -92,31 +77,57 @@ class Personagem {
 
 class Acoes {
 
+    //Personagem
     private Personagem personagem;
-    private boolean primeiroCadastro = false;
 
+    //Campos
+    private JLabel lnome;
+    private JTextField fnome;
+    private JLabel lestado;
+    private JComboBox<String> festado;
+    private JTextField ffor;
+    private JTextField fint;
+    private JTextField fdes;
+    private JTextField fmis;
+    private JTextField fcar;
+    private JTextField fpro;
+    private JLabel lfor;
+    private JLabel lint;
+    private JLabel ldes;
+    private JLabel lmis;
+    private JLabel lcar;
+    private JLabel lpro;
+    private JButton bsalvar;
+    private JComboBox<String> fteste;
+    private JButton bteste;
+
+    //Estados
     private String estados [] = {
         "Normal", "Esgotado", "Assustado",
         "Apavorado", "Enlouquecido", "Desprevenido", 
         "Cansado", "Exausto", "Enjoado", 
     };
 
+    //Testes
     private String testes [] = {
         "Combate", "Resistência", "Intimidação",
         "Magia", "Intelecto", "Percepção",
         "Agilidade", "Furtividade", "Mira",
         "Fé", "Encantamento", "Sanidade",
-        "Carisma", "Arte", "Sorte",
+        "Persuasão", "Arte", "Sorte",
         "Sobrevivência", "Cutelaria", "Ciências",
     };
 
+    //Ações
     public Acoes(Personagem personagem) {
         this.personagem = personagem;
         Gui();
     }
 
+    //Começa a aplicação
     public void Gui() {
 
+        //Definindo Tela
         JFrame f = new JFrame("RPG");
         f.setVisible(true);
         f.setSize(420, 500);
@@ -134,47 +145,46 @@ class Acoes {
         int space = 10;
         int initialX = 20;
         int initialY = 30;
-
         
         //Nome
-        JLabel lnome = new JLabel("Nome");
+        lnome = new JLabel("Nome");
         lnome.setFont(new Font("Arial", Font.PLAIN, fontSize));
         lnome.setSize(labelSize, labelHeight);
         lnome.setLocation(initialX, initialY);
         p.add(lnome);
  
-        JTextField fnome = new JTextField();
+        fnome = new JTextField();
         fnome.setSize(fieldSize, fieldHeight);
         fnome.setLocation(initialX + labelSize + space, initialY);
         p.add(fnome);
 
 
         //Estado
-        JLabel lestado = new JLabel("Estado");
+        lestado = new JLabel("Estado");
         lestado.setFont(new Font("Arial", Font.PLAIN, fontSize));
         lestado.setSize(labelSize, labelHeight);
         lestado.setLocation(200, initialY);
         p.add(lestado);
  
-        JComboBox<String> festado = new JComboBox<String>(estados);
+        festado = new JComboBox<String>(estados);
         festado.setSize(fieldSize, fieldHeight);
         festado.setLocation(200 + labelSize + space, initialY);
         p.add(festado);
 
 
         //Atributos
-        JTextField ffor = new JTextField();
-        JTextField fint = new JTextField();
-        JTextField fdes = new JTextField();
-        JTextField fmis = new JTextField();
-        JTextField fcar = new JTextField();
-        JTextField fpro = new JTextField();
-        JLabel lfor = new JLabel("FOR");
-        JLabel lint = new JLabel("INT");
-        JLabel ldes = new JLabel("DES");
-        JLabel lmis = new JLabel("MIS");
-        JLabel lcar = new JLabel("CAR");
-        JLabel lpro = new JLabel("PRO");
+        ffor = new JTextField();
+        fint = new JTextField();
+        fdes = new JTextField();
+        fmis = new JTextField();
+        fcar = new JTextField();
+        fpro = new JTextField();
+        lfor = new JLabel("FOR");
+        lint = new JLabel("INT");
+        ldes = new JLabel("DES");
+        lmis = new JLabel("MIS");
+        lcar = new JLabel("CAR");
+        lpro = new JLabel("PRO");
         
         int posX = 70;
         int posY = 100;
@@ -208,100 +218,91 @@ class Acoes {
         }
 
 
-        //Salvar
-        JButton bsalvar = new JButton("Salvar");
+        //Botão de Salvar
+        bsalvar = new JButton("Salvar");
         bsalvar.setSize(80, 20);
         bsalvar.setLocation(20, 350);
         p.add(bsalvar);
         
         bsalvar.addActionListener( new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
-                try{
-                    
-                    String [] campos = {
-                        ffor.getText().toString(),
-                        fint.getText().toString(),
-                        fdes.getText().toString(),
-                        fmis.getText().toString(),
-                        fcar.getText().toString(),
-                        fpro.getText().toString(),
-                    };
-                    int [] traducoes = new int [6]; 
-
-                    for(int x = 0; x < campos.length; x++){
-                        if( campos[x].length() == 0){
-                            traducoes[x] = 0;
-                        
-                        } else if(campos[x].length() == 1 && campos[x].matches("[0-9]")) {
-                            traducoes[x] = Integer.parseInt(campos[x]);
-
-                        } else if(campos[x].length() == 2 && (campos[x].charAt(0) +"").matches("\\-") && (campos[x].charAt(1) +"").matches("[0-9]")) {
-                            traducoes[x] = Integer.parseInt(campos[x]);
-
-                        } else {
-                            traducoes[x] = 0;
-                        }
-                    }
-                    
-                    salvarPersonagem(
-                        fnome.getText(), 
-                        festado.getSelectedItem().toString(),
-                        traducoes[0],
-                        traducoes[1],
-                        traducoes[2],
-                        traducoes[3],
-                        traducoes[4],
-                        traducoes[5]
-                    );
-
-                    ffor.setText(traducoes[0] + "");
-                    fint.setText(traducoes[1] + "");
-                    fdes.setText(traducoes[2] + "");
-                    fmis.setText(traducoes[3] + "");
-                    fcar.setText(traducoes[4] + "");
-                    fpro.setText(traducoes[5] + "");
-
-                } catch (NumberFormatException ex){
-                    ex.printStackTrace();
-                }
+                atualizarForm();
             }         
         });
 
 
-        //Realizar Teste
-        JComboBox<String> fteste = new JComboBox<String>(testes);
+        //Botão de Teste
+        fteste = new JComboBox<String>(testes);
         fteste.setSize(fieldSize, fieldHeight);
         fteste.setLocation(175, 350);
         p.add(fteste);
 
-        JButton bteste = new JButton("Realizar Teste");
+        bteste = new JButton("Realizar Teste");
         bteste.setSize(120, 20);
         bteste.setLocation(275, 350);
         p.add(bteste);
 
         bteste.addActionListener( new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                
-                if(primeiroCadastro){
-                    personagem.teste(fteste.getSelectedItem().toString());
-                
-                } else {
-                    String newNome = fnome.getText().length() == 0 ? "Personagem" : fnome.getText();
-                    salvarPersonagem(newNome, festado.getSelectedItem().toString(), 0, 0, 0, 0, 0, 0);
-                    fnome.setText(newNome);
-                    ffor.setText("0");
-                    fint.setText("0");
-                    fdes.setText("0");
-                    fmis.setText("0");
-                    fcar.setText("0");
-                    fpro.setText("0");
-                    personagem.teste(fteste.getSelectedItem().toString());
-                }
+                atualizarForm();
+                personagem.teste(fteste.getSelectedItem().toString());
             }         
         });
 
         //Adiciona o painel a tela
         f.add(p); 
+    }
+
+    public void atualizarForm(){
+        try{
+                    
+            String [] campos = {
+                ffor.getText().toString(),
+                fint.getText().toString(),
+                fdes.getText().toString(),
+                fmis.getText().toString(),
+                fcar.getText().toString(),
+                fpro.getText().toString(),
+            };
+            int [] traducoes = new int [6]; 
+
+            for(int x = 0; x < campos.length; x++){
+                if( campos[x].length() == 0){
+                    traducoes[x] = 0;
+                
+                } else if(campos[x].length() == 1 && campos[x].matches("[0-9]")) {
+                    traducoes[x] = Integer.parseInt(campos[x]);
+
+                } else if(campos[x].length() == 2 && (campos[x].charAt(0) +"").matches("\\-") && (campos[x].charAt(1) +"").matches("[0-9]")) {
+                    traducoes[x] = Integer.parseInt(campos[x]);
+
+                } else {
+                    traducoes[x] = 0;
+                }
+            }
+            
+            salvarPersonagem(
+                fnome.getText().length() == 0 ? "Personagem" : fnome.getText(), 
+                festado.getSelectedItem().toString(),
+                traducoes[0],
+                traducoes[1],
+                traducoes[2],
+                traducoes[3],
+                traducoes[4],
+                traducoes[5]
+            );
+
+            fnome.setText(fnome.getText().length() == 0 ? "Personagem" : fnome.getText());
+            ffor.setText(traducoes[0] + "");
+            fint.setText(traducoes[1] + "");
+            fdes.setText(traducoes[2] + "");
+            fmis.setText(traducoes[3] + "");
+            fcar.setText(traducoes[4] + "");
+            fpro.setText(traducoes[5] + "");
+
+        } catch (NumberFormatException ex){
+            ex.printStackTrace();
+        }
     }
 
     public void salvarPersonagem(String nome, String estado, int f, int i, int d, int m, int c, int p){
@@ -313,8 +314,6 @@ class Acoes {
         personagem.m = m;
         personagem.c = c;
         personagem.p = p;
-
-        primeiroCadastro = true;
     }
 
 }
@@ -345,38 +344,34 @@ public class Cliente {
 
     private static String host = "127.0.0.1";
     private static int porta = 12345;
-    private static Personagem personagem;
-    private static Acoes acoes;
-
-    public static void main(String[] args) throws UnknownHostException, IOException {
-
-        executa();
-    }
 
     public static void executa() throws UnknownHostException, IOException {
 
         // Cria um novo cliente
-        try (Socket cliente = new Socket(host, porta)) {
+        Socket cliente = new Socket(host, porta);
 
-            // Cria uma thread para receber mensagens do servidor
-            Recebedor r = new Recebedor(cliente.getInputStream());
-            new Thread(r).start();
+        //Cria uma thread para receber mensagens do servidor
+        Recebedor r = new Recebedor(cliente.getInputStream());
+        new Thread(r).start();
 
-            // Lê msgs do teclado e manda pro servidor
-            Scanner teclado = new Scanner(System.in);
-            PrintStream saida = new PrintStream(cliente.getOutputStream());
+        //Lê msgs do teclado e manda pro servidor
+        Scanner teclado = new Scanner(System.in);
+        PrintStream saida = new PrintStream(cliente.getOutputStream());
 
-            // Cria um novo personagem e instancia suas acoes
-            personagem = new Personagem();
-            acoes = new Acoes(personagem);
+        //Cria um novo personagem e instancia suas acoes
+        Personagem personagem = new Personagem();
+        Acoes acoes = new Acoes(personagem);
 
-            while (teclado.hasNextLine()) {
-                saida.println(personagem.nome + " digitou: " + teclado);
-            }
+        while (teclado.hasNextLine()) {
+            saida.println(personagem.nome + " digitou: " + teclado);
         }
 
-        // saida.close();
-        // teclado.close();
-        // cliente.close();
+        saida.close();
+        teclado.close();
+        cliente.close();
+    }
+
+    public static void main(String[] args) throws UnknownHostException, IOException {
+        executa();
     }
 }
