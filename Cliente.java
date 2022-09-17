@@ -35,11 +35,11 @@ class Personagem {
         
         if( !(this.estado == "Enlouquecido") ){
         
-            if (teste == "Combate" || teste == "Resistência" || teste == "Intimidação"){    dados = this.f; } 
-            else if (teste == "Magia" || teste == "Intelecto" || teste == "Percepção"){     dados = this.i; }
-            else if (teste == "Agilidade" || teste == "Furtividade" || teste == "Mira"){    dados = this.d; } 
-            else if (teste == "Fé" || teste == "Encantamento" || teste == "Sanidade"){      dados = this.m; } 
-            else if (teste == "Persuasão" || teste == "Arte" || teste == "Sorte"){          dados = this.c; } 
+            if (teste == "Combate" || teste == "Resistência" || teste == "Intimidação"){ dados = this.f; } 
+            else if (teste == "Magia" || teste == "Intelecto" || teste == "Percepção"){ dados = this.i; }
+            else if (teste == "Agilidade" || teste == "Furtividade" || teste == "Mira"){ dados = this.d; } 
+            else if (teste == "Fé" || teste == "Encantamento" || teste == "Sanidade"){ dados = this.m; } 
+            else if (teste == "Persuasão" || teste == "Arte" || teste == "Sorte"){ dados = this.c; } 
             else if (teste == "Sobrevivência" || teste == "Cutelaria" || teste == "Ciências"){ dados = this.p; }
             
             if(this.estado == "Esgotado"){ dados = dados >= 0 ? 0 : dados; } 
@@ -64,7 +64,7 @@ class Personagem {
 
             //Atualiza o resultado com modificações
             resultado = resultado + mods;
-            mensagem = nome + " obteu  { " + resultado + " }  como resultado de um teste de " + teste + "\n\n";
+            mensagem = nome + " obteu  { " + resultado + " }  como resultado de um teste de " + teste;
         
         } else {
             mensagem = "Você não pode realizar testes enquanto está no estado de Enloquecido";
@@ -254,8 +254,7 @@ class Acoes {
     }
 
     public void atualizarForm(){
-        try{
-                    
+        try{  
             String [] campos = {
                 ffor.getText().toString(),
                 fint.getText().toString(),
