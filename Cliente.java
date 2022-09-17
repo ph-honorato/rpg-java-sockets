@@ -6,6 +6,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.*;
+import javax.swing.text.html.HTMLDocument.RunElement;
+import javax.xml.soap.Text;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -70,14 +73,13 @@ class Personagem {
 
             //Atualiza o resultado com modificações
             resultado = resultado + mods;
-            mensagem = nome + " obteu  { " + resultado + " }  como resultado de um teste de " + teste;
+            mensagem = nome + " obteve  { " + resultado + " }  como resultado de um teste de " + teste;
         
         } else {
             mensagem = nome + " não pode realizar testes enquanto está no estado de Enloquecido";
         } 
         
         saida.println(mensagem);
-
     }
 }
 
@@ -85,6 +87,9 @@ class Acoes {
 
     //Personagem
     private Personagem personagem;
+
+    //Mensagens do console
+    private String mensagensConsole = "";
 
     //Campos
     private JLabel lnome;
@@ -106,6 +111,8 @@ class Acoes {
     private JButton bsalvar;
     private JComboBox<String> fteste;
     private JButton bteste;
+    private JTextArea fconsole;
+    private JScrollPane fscrollpanel;
 
     //Estados
     private String estados [] = {
@@ -127,7 +134,7 @@ class Acoes {
     //Ações
     public Acoes(Personagem personagem) {
         this.personagem = personagem;
-        Gui();
+        // Gui();
     }
 
     //Começa a aplicação
@@ -136,7 +143,7 @@ class Acoes {
         //Definindo Tela
         JFrame f = new JFrame("RPG");
         f.setVisible(true);
-        f.setSize(420, 500);
+        f.setSize(440, 600);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Container p = new Container();
@@ -255,6 +262,16 @@ class Acoes {
             }         
         });
 
+
+        //Console de Mensagens
+        fconsole = new JTextArea();
+        fconsole.setEditable(false);
+        fscrollpanel = new JScrollPane(fconsole);
+        fscrollpanel.setSize(380, 120);
+        fscrollpanel.setLocation(initialX, 420);
+        p.add(fscrollpanel);
+
+
         //Adiciona o painel a tela
         f.add(p); 
     }
@@ -321,14 +338,26 @@ class Acoes {
         personagem.p = p;
     }
 
+    public void atualizarConsole(String mensagem){
+        this.mensagensConsole = this.mensagensConsole + mensagem + "\n";
+        this.fconsole.setText(this.mensagensConsole);
+    }
+
+    public void limparConsole(){
+        this.mensagensConsole = "";
+        this.fconsole.setText("");
+    }
+
 }
 
 class Recebedor implements Runnable {
 
     private InputStream servidor;
+    private Acoes acoes;
 
-    public Recebedor(InputStream servidor) {
+    public Recebedor(InputStream servidor, Acoes acoes) {
         this.servidor = servidor;
+        this.acoes = acoes;
     }
 
     public void run() {
@@ -338,26 +367,28 @@ class Recebedor implements Runnable {
 
         // Exibe todas as mensagens vindas do servidor
         while (s.hasNextLine()) {
-            System.out.println(s.nextLine());
+            String retorno = s.nextLine();
+            acoes.atualizarConsole(retorno);
+            System.out.println(retorno);
         }
 
         s.close();
     }
+
 }
+
 
 public class Cliente {
 
     private static String host = "127.0.0.1";
     private static int porta = 12345;
 
+    // private static Acoes acoes;
+
     public static void executa() throws UnknownHostException, IOException {
 
         // Cria um novo cliente
         Socket cliente = new Socket(host, porta);
-
-        //Cria uma thread para receber mensagens do servidor
-        Recebedor r = new Recebedor(cliente.getInputStream());
-        new Thread(r).start();
 
         //Lê msgs do teclado e manda pro servidor
         Scanner teclado = new Scanner(System.in);
@@ -366,6 +397,11 @@ public class Cliente {
         //Cria um novo personagem e instancia suas acoes
         Personagem personagem = new Personagem(saida);
         Acoes acoes = new Acoes(personagem);
+        acoes.Gui();
+
+        //Cria uma thread para receber mensagens do servidor
+        Recebedor r = new Recebedor(cliente.getInputStream(), acoes);
+        new Thread(r).start();
 
         while (teclado.hasNextLine()) {
             saida.println(personagem.nome + ": " + teclado.nextLine());
@@ -375,6 +411,8 @@ public class Cliente {
         teclado.close();
         cliente.close();
     }
+
+    
 
     public static void main(String[] args) throws UnknownHostException, IOException {
         executa();
